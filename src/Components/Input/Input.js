@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
+import './Input.css';
 
-const Input = () => {
-  // To handle the user submitted URL and return the QR
-  const [url, setUrl] = useState('');
-  const [route, setRoute] = useState('');
-
+const Input = ({ url, setUrl, route, setRoute }) => {
   const handleUrlChange = (e) => {
     setUrl(e.target.value);
   };
 
+  // Calls api to produce code and uses ternary operator to output to browser
   const handleSubmit = async (e) => {
+    if (url !== '') {
+      let submittedUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
+      setRoute(submittedUrl);
+    }
     e.preventDefault();
-    let submittedUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${url}`;
-    setRoute(submittedUrl);
   };
 
   return (
@@ -28,7 +28,6 @@ const Input = () => {
         <button type="submit" className="submit-btn">
           sumbit
         </button>
-        <img src={route} alt="" title=""></img>
       </form>
     </>
   );
